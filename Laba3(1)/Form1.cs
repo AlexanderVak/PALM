@@ -16,13 +16,14 @@ namespace Laba3_1_
         {
             InitializeComponent();
         }
-        int numOfSide = 5;
-        int R = 60;
+        int numOfSidePent = 5;
         Point Cntr;
         Point[] arrayOfPoints;
+        Pen blackPen = new Pen(Color.Black, 2);
 
-        private void BuildPentagon(double angle)
+        private void BuildLineForPentagon(double angle, int numOfSide)
         {
+            int R = 60;
             double phi = 0; int i = 0;
             while (i < numOfSide + 1)
             {
@@ -32,22 +33,36 @@ namespace Laba3_1_
                 i++;
             }
         }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void MyDrawPentagon(int numOfSide)
         {
             Cntr.X = 80;
             Cntr.Y = 95;
-
             arrayOfPoints = new Point[numOfSide + 1];
-            BuildPentagon( (double)( 360.0 / (double)numOfSide));
+            BuildLineForPentagon( (double)( 360.0 / (double)numOfSide), numOfSidePent);
             Graphics g = pictureBox1.CreateGraphics();
-            while(numOfSide > 0)
+            while (numOfSide > 0)
             {
-               g.DrawLine(new Pen(Color.Black, 2), arrayOfPoints[numOfSide], arrayOfPoints[numOfSide - 1]);
+               g.DrawLine(blackPen, arrayOfPoints[numOfSide], arrayOfPoints[numOfSide - 1]);
                numOfSide--;
             }
+        }
+
+        private void MyDrawPie()
+        {
+            Graphics g = pictureBox1.CreateGraphics();
+            Rectangle rect = new Rectangle(45,3, 200, 100);
+            float startAngle = 0.0F;
+            float sweepAngle = 45.0F;
+            SolidBrush solidBrush = new SolidBrush(Color.FromArgb(255, 0, 255, 0));
+            g.FillPie(solidBrush, rect, startAngle, sweepAngle);
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MyDrawPentagon(numOfSidePent);
+            MyDrawPie();
 
         }
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
