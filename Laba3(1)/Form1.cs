@@ -33,7 +33,7 @@ namespace Laba3_1_
                 i++;
             }
         }
-        private void MyDrawPentagon(int numOfSide)
+        private void DrawPentagon(int numOfSide)
         {
             Cntr.X = 80;
             Cntr.Y = 95;
@@ -53,14 +53,44 @@ namespace Laba3_1_
             Rectangle rect = new Rectangle(45,3, 200, 100);
             float startAngle = 0.0F;
             float sweepAngle = 45.0F;
-            SolidBrush solidBrush = new SolidBrush(Color.FromArgb(255, 0, 255, 0));
+            SolidBrush solidBrush = new SolidBrush(Color.Green);
             g.FillPie(solidBrush, rect, startAngle, sweepAngle);
+            
+        }
+
+        private void DrawRhombus (Pen blackPen)
+        {
+            Graphics g = pictureBox1.CreateGraphics();
+            int X = 400;
+            int Y = 400;
+            Point point1 = new Point(X, Y );
+            Point point2 = new Point(X - 50, Y - 100);
+            Point point3 = new Point(X + 50, Y - 100 );
+            Point point4 = new Point(X, Y - 200);
+            Point[] pointsArrayOfRhombus = { point1, point2, point4, point3};
+            g.DrawPolygon(blackPen, pointsArrayOfRhombus);
+        }
+
+        private void DrawCube(Pen blackPen)
+        {
+            int X1 = 600;
+            int Y1 = 100;
+            int X2 = 650;
+            int Y2 = 65;
+            Graphics g = pictureBox1.CreateGraphics();
+            g.DrawRectangle(blackPen, 600, 100, 200, 200);
+            g.DrawRectangle(blackPen, 650, 65, 200, 200);
+            g.DrawLine(blackPen, X1, Y1, X2, Y2);
+            g.DrawLine(blackPen, X1 + 200, Y1, X2 + 200, Y2);
+            g.DrawLine(blackPen, X1, Y1 + 200, X2, Y2 + 200);
+            g.DrawLine(blackPen, X1 + 200, Y1 + 200, X2 + 200, Y2 + 200);
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            MyDrawPentagon(numOfSidePent);
+            DrawPentagon(numOfSidePent);
             MyDrawPie();
-
+            DrawRhombus(blackPen);
+            DrawCube(blackPen);
         }
 
 
