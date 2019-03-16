@@ -20,7 +20,6 @@ namespace Laba3_1_
         Point Cntr;
         Point[] arrayOfPoints;
         Pen blackPen = new Pen(Color.Black, 2);
-
         private void BuildLineForPentagon(double angle, int numOfSide)
         {
             int R = 60;
@@ -33,13 +32,12 @@ namespace Laba3_1_
                 i++;
             }
         }
-        private void DrawPentagon(int numOfSide)
+        private void DrawPentagon(int numOfSide, Graphics g)
         {
             Cntr.X = 80;
             Cntr.Y = 95;
             arrayOfPoints = new Point[numOfSide + 1];
             BuildLineForPentagon( (double)( 360.0 / (double)numOfSide), numOfSidePent);
-            Graphics g = pictureBox1.CreateGraphics();
             while (numOfSide > 0)
             {
                g.DrawLine(blackPen, arrayOfPoints[numOfSide], arrayOfPoints[numOfSide - 1]);
@@ -47,20 +45,19 @@ namespace Laba3_1_
             }
         }
 
-        private void MyDrawPie()
+        private void MyDrawPie(Graphics g)
         {
-            Graphics g = pictureBox1.CreateGraphics();
             Rectangle rect = new Rectangle(45,3, 200, 100);
             float startAngle = 0.0F;
             float sweepAngle = 45.0F;
             SolidBrush solidBrush = new SolidBrush(Color.Green);
+            g.DrawPie(blackPen, rect, startAngle, sweepAngle);
             g.FillPie(solidBrush, rect, startAngle, sweepAngle);
             
         }
 
-        private void DrawRhombus (Pen blackPen)
+        private void DrawRhombus (Pen blackPen, Graphics g)
         {
-            Graphics g = pictureBox1.CreateGraphics();
             int X = 400;
             int Y = 400;
             Point point1 = new Point(X, Y );
@@ -71,13 +68,12 @@ namespace Laba3_1_
             g.DrawPolygon(blackPen, pointsArrayOfRhombus);
         }
 
-        private void DrawCube(Pen blackPen)
+        private void DrawCube(Pen blackPen, Graphics g)
         {
             int X1 = 600;
             int Y1 = 100;
             int X2 = 650;
             int Y2 = 65;
-            Graphics g = pictureBox1.CreateGraphics();
             g.DrawRectangle(blackPen, 600, 100, 200, 200);
             g.DrawRectangle(blackPen, 650, 65, 200, 200);
             g.DrawLine(blackPen, X1, Y1, X2, Y2);
@@ -87,10 +83,13 @@ namespace Laba3_1_
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            DrawPentagon(numOfSidePent);
-            MyDrawPie();
-            DrawRhombus(blackPen);
-            DrawCube(blackPen);
+            Bitmap myBitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            Graphics g = Graphics.FromImage(myBitmap);
+            DrawPentagon(numOfSidePent, g);
+            MyDrawPie(g);
+            DrawRhombus(blackPen, g);
+            DrawCube(blackPen, g);
+            pictureBox1.Image = myBitmap;
         }
 
 
