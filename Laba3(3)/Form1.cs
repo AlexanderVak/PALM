@@ -21,32 +21,36 @@ namespace Laba3_3_
         Random rndForColors; 
         Bitmap myBitmap;
         Graphics g;
-        private void DrawLine()
-        {
-            myBitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-            g = Graphics.FromImage(myBitmap);
-            rnd = new Random();
-            rndForColors = new Random(DateTime.Now.Millisecond);
-            pen = new Pen(Color.FromArgb(rndForColors.Next(256), rndForColors.Next(256), rndForColors.Next(256), 10));
-            int x = rnd.Next(pictureBox1.Width);
-            int y = rnd.Next(pictureBox1.Height);
-            Point point1 = new Point(x, y);
-            Point point2 = new Point(x, y);
-            g.DrawLine(pen, point1, point2);
-            pictureBox1.Image = myBitmap;
-        }
- 
+        int x, y, x1, y1;
+        Point point1, point2;
+
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            rnd = new Random();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
 
 
+
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            myBitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            g = Graphics.FromImage(myBitmap);
 
+            rndForColors = new Random();
+            pen = new Pen(Color.FromArgb(rndForColors.Next(0, 256), rndForColors.Next(0, 256), rndForColors.Next(0, 256)), 5.0F);
+            x = rnd.Next(200, 437);
+            y = rnd.Next(100, 297);
+            x1 = rnd.Next(200, 437);
+            y1 = rnd.Next(100, 297);
+            point1 = new Point(x, y);
+            point2 = new Point(x1, y1);
+            g.DrawLine(pen, point1, point2);
+            pictureBox1.Image = myBitmap;
+        }
     }
 }
