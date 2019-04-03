@@ -14,13 +14,13 @@ namespace Laba3_4_
     {
         Graphics gr;
         Bitmap myBtmp;
-        int x, y;
+        int x1, x2, y;
         float angle;
-        Pen penForSpoke, penForWheel1, penForWheel2; 
+        Pen penForSpoke, penForWheel, penBlack; 
         public Form1()
         {
             InitializeComponent();
-           
+            x1 = pictureBox1.Width / 2;
         }
         void DrawFirstWheel(Graphics gr)
         {
@@ -34,11 +34,11 @@ namespace Laba3_4_
                 gr.RotateTransform(45);
             }
             //шина
-            penForWheel1 = new Pen(Color.Black, 3);
-            penForWheel2 = new Pen(Color.DimGray, 8);
-            gr.DrawEllipse(penForWheel2, -rad + 5, -rad + 5, rad * 2 - 10, rad * 2 - 10);
-            gr.DrawEllipse(penForWheel1, -rad, -rad, rad * 2, rad * 2);
-            gr.DrawEllipse(penForWheel1, -rad + 10, -rad + 10, rad * 2 - 20, rad * 2 - 20);
+            penBlack = new Pen(Color.Black, 3);
+            penForWheel = new Pen(Color.DimGray, 8);
+            gr.DrawEllipse(penForWheel, -rad + 5, -rad + 5, rad * 2 - 10, rad * 2 - 10);
+            gr.DrawEllipse(penBlack, -rad, -rad, rad * 2, rad * 2);
+            gr.DrawEllipse(penBlack, -rad + 10, -rad + 10, rad * 2 - 20, rad * 2 - 20);
 
             pictureBox1.Image = myBtmp;
         }
@@ -50,21 +50,55 @@ namespace Laba3_4_
             penForSpoke = new Pen(Color.Black, 2);
             for (int i = 0; i < 360; i += 45)
             {
-                gr.DrawLine(penForSpoke, 0, 0, rad, 0);
+
+                gr.DrawLine(penForSpoke, -200, 0, -175, 0);
+
+                gr.TranslateTransform(-200, 0);
                 gr.RotateTransform(45);
+                gr.TranslateTransform(200, 0);
             }
             //шина
-            penForWheel1 = new Pen(Color.Black, 3);
-            penForWheel2 = new Pen(Color.DimGray, 8);
+
+            
             //змінюємо х координату
-            gr.DrawEllipse(penForWheel2, -rad + 5 - 150, -rad + 5, rad * 2 - 10, rad * 2 - 10);
-            gr.DrawEllipse(penForWheel1, -rad - 150, -rad, rad * 2, rad * 2);
-            gr.DrawEllipse(penForWheel1, -rad + 10 - 150, -rad + 10, rad * 2 - 20, rad * 2 - 20);
+            gr.DrawEllipse(penForWheel, -rad + 5 - 200, -rad + 5, rad * 2 - 10, rad * 2 - 10);
+            gr.DrawEllipse(penBlack, -rad - 200, -rad, rad * 2, rad * 2);
+            gr.DrawEllipse(penBlack, -rad + 10 - 200, -rad + 10, rad * 2 - 20, rad * 2 - 20);
 
             pictureBox1.Image = myBtmp;
         }
 
+        private void DrawBody(Graphics gr)
+        {
+            SolidBrush blueBrush = new SolidBrush(Color.DodgerBlue);
+            SolidBrush windowBrush = new SolidBrush(Color.CornflowerBlue);
+            SolidBrush greyBrush = new SolidBrush(Color.Gray);
 
+            Point point1 = new Point(-40, -20);
+            Point point2 = new Point(40, -20);
+            Point point3 = new Point(40, -50);
+            Point point4 = new Point(15, -60);
+            Point point5 = new Point(10, -90);
+            Point point6 = new Point(-40, -90);
+            Point[] pointsForBody = { point1, point2, point3, point4, point5, point6 };
+
+            gr.FillPolygon(blueBrush, pointsForBody);
+            gr.DrawPolygon(penBlack, pointsForBody);
+            
+            Rectangle window = new Rectangle(-32, -80, 30, 20);
+            gr.FillRectangle(windowBrush, window);
+            gr.DrawRectangle(penBlack, window);
+
+            Rectangle handle = new Rectangle(-32, -50, 10, 5);
+            gr.FillRectangle(greyBrush, handle);
+            gr.DrawRectangle(penBlack, handle);
+
+            Rectangle bumper = new Rectangle(30, -30, 20, 10);
+            gr.FillRectangle(greyBrush, bumper);
+            gr.DrawRectangle(penBlack, bumper);
+
+            pictureBox1.Image = myBtmp;
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             timer1.Start();
@@ -75,19 +109,24 @@ namespace Laba3_4_
             //поворот спиць
             angle += 5f;
             // рух колеса
-            x += 3;
+
+            x1 += 3;
+
+            x2 += 3;
             Invalidate();
             myBtmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             gr = Graphics.FromImage(myBtmp);
             // переносимо центр мас
-            y = 200;
-            gr.TranslateTransform(x, y);
-            gr.RotateTransform(angle);
-            DrawFirstWheel(gr);
-            y = 200;
-            gr.TranslateTransform(x, y);
+            y = 300;
+            gr.TranslateTransform(x1, y);
 
+            DrawFirstWheel(gr);
             DrawSecondWheel(gr);
+            DrawBody(gr);
+
+
+
+
         }
 
 
