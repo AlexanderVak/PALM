@@ -12,15 +12,20 @@ namespace Laba3_4_
 {
     public partial class Form1 : Form
     {
-        Graphics gr;
-        Bitmap myBtmp;
+        Graphics gr, gr1;
+        Bitmap myBtmp, myBtmp1;
         int x1, x2, y;
         float angle;
         Pen penForSpoke, penForWheel, penBlack; 
         public Form1()
         {
             InitializeComponent();
-            x1 = pictureBox1.Width / 2;
+			pictureBox1.Controls.Add(pictureBox2);
+			pictureBox2.Location = new Point(0, 0);
+			pictureBox2.BackColor = Color.Transparent;
+
+
+            penBlack = new Pen(Color.Black, 3);
         }
         void DrawFirstWheel(Graphics gr)
         {
@@ -34,7 +39,7 @@ namespace Laba3_4_
                 gr.RotateTransform(45);
             }
             //шина
-            penBlack = new Pen(Color.Black, 3);
+
             penForWheel = new Pen(Color.DimGray, 8);
             gr.DrawEllipse(penForWheel, -rad + 5, -rad + 5, rad * 2 - 10, rad * 2 - 10);
             gr.DrawEllipse(penBlack, -rad, -rad, rad * 2, rad * 2);
@@ -42,7 +47,10 @@ namespace Laba3_4_
 
             pictureBox1.Image = myBtmp;
         }
-        void DrawSecondWheel(Graphics gr)
+
+
+
+        void DrawSecondWheel(Graphics gr1)
         {
 
             var rad = 25;
@@ -51,21 +59,21 @@ namespace Laba3_4_
             for (int i = 0; i < 360; i += 45)
             {
 
-                gr.DrawLine(penForSpoke, -200, 0, -175, 0);
+                gr1.DrawLine(penForSpoke, -200, 0, -175, 0);
 
-                gr.TranslateTransform(-200, 0);
-                gr.RotateTransform(45);
-                gr.TranslateTransform(200, 0);
+                gr1.TranslateTransform(-200, 0);
+                gr1.RotateTransform(45);
+                gr1.TranslateTransform(200, 0);
             }
             //шина
 
             
             //змінюємо х координату
-            gr.DrawEllipse(penForWheel, -rad + 5 - 200, -rad + 5, rad * 2 - 10, rad * 2 - 10);
-            gr.DrawEllipse(penBlack, -rad - 200, -rad, rad * 2, rad * 2);
-            gr.DrawEllipse(penBlack, -rad + 10 - 200, -rad + 10, rad * 2 - 20, rad * 2 - 20);
+            gr1.DrawEllipse(penForWheel, -rad + 5 - 200, -rad + 5, rad * 2 - 10, rad * 2 - 10);
+            gr1.DrawEllipse(penBlack, -rad - 200, -rad, rad * 2, rad * 2);
+            gr1.DrawEllipse(penBlack, -rad + 10 - 200, -rad + 10, rad * 2 - 20, rad * 2 - 20);
 
-            pictureBox1.Image = myBtmp;
+            pictureBox2.Image = myBtmp1;
         }
 
         private void DrawBody(Graphics gr)
@@ -73,6 +81,7 @@ namespace Laba3_4_
             SolidBrush blueBrush = new SolidBrush(Color.DodgerBlue);
             SolidBrush windowBrush = new SolidBrush(Color.CornflowerBlue);
             SolidBrush greyBrush = new SolidBrush(Color.Gray);
+            SolidBrush yellowBrush = new SolidBrush(Color.Yellow);
 
             Point point1 = new Point(-40, -20);
             Point point2 = new Point(40, -20);
@@ -82,8 +91,14 @@ namespace Laba3_4_
             Point point6 = new Point(-40, -90);
             Point[] pointsForBody = { point1, point2, point3, point4, point5, point6 };
 
+            Rectangle headlight = new Rectangle(35, -47, 15, 15);
+            gr.FillEllipse(yellowBrush, headlight);
+            gr.DrawEllipse(penBlack, headlight);
+
             gr.FillPolygon(blueBrush, pointsForBody);
             gr.DrawPolygon(penBlack, pointsForBody);
+
+
             
             Rectangle window = new Rectangle(-32, -80, 30, 20);
             gr.FillRectangle(windowBrush, window);
@@ -99,6 +114,31 @@ namespace Laba3_4_
 
             pictureBox1.Image = myBtmp;
         }
+
+        private void DrawTrailer(Graphics gr)
+        {
+            SolidBrush brownBrush = new SolidBrush(Color.BurlyWood);
+            SolidBrush orangeBrush = new SolidBrush(Color.Orange);
+
+            Rectangle headlight = new Rectangle(-235, -35, 15, 15);
+            gr.FillEllipse(orangeBrush, headlight);
+            gr.DrawEllipse(penBlack, headlight);
+
+            Rectangle trailerRect = new Rectangle(-225, -75, 185, 55);
+            gr.FillRectangle(brownBrush, trailerRect);
+            gr.DrawRectangle(penBlack, trailerRect);
+
+            Point point1 = new Point(-225, -60);
+            Point point2 = new Point(-40, -60);
+            Point point3 = new Point(-225, -35);
+            Point point4 = new Point(-40, -35);
+            gr.DrawLine(penBlack, point1, point2);
+            gr.DrawLine(penBlack, point3, point4);
+
+
+            pictureBox1.Image = myBtmp;
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             timer1.Start();
@@ -114,20 +154,32 @@ namespace Laba3_4_
 
             x2 += 3;
             Invalidate();
+
             myBtmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             gr = Graphics.FromImage(myBtmp);
+
             // переносимо центр мас
             y = 300;
             gr.TranslateTransform(x1, y);
-
-            DrawFirstWheel(gr);
-            DrawSecondWheel(gr);
             DrawBody(gr);
+            DrawTrailer(gr);
+            gr.RotateTransform(angle);
+            DrawFirstWheel(gr);
+            myBtmp1 = new Bitmap(pictureBox2.Width, pictureBox2.Height);
+            gr1 = Graphics.FromImage(myBtmp1);
+
+            gr1.TranslateTransform(x2, y);
+
+			DrawSecondWheel(gr1);
 
 
 
 
-        }
+
+
+
+
+		}
 
 
 
