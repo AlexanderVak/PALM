@@ -25,6 +25,7 @@ namespace Laba3_3_
         Point point1, point2, pointCntr;
         int[] cntrArray;
 
+
         private void Form1_Load(object sender, EventArgs e)
         {
             rnd = new Random();
@@ -42,9 +43,11 @@ namespace Laba3_3_
             rndForColors = new Random();
             pen = new Pen(Color.FromArgb(rndForColors.Next(0, 256), rndForColors.Next(0, 256), rndForColors.Next(0, 256)), 5.0F);
 
+
         }
         private void button1_Click(object sender, EventArgs e)
         {
+
 
 
 
@@ -54,7 +57,8 @@ namespace Laba3_3_
 
             g.DrawLine(pen, point1, point2);
             pictureBox1.Image = myBitmap;
-            timer1.Start();  
+			timer1.Start();
+
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -66,23 +70,25 @@ namespace Laba3_3_
             {
 
 
-                x1 = cntrX + (x1 - cntrX) * (int)Math.Cos(30.0) - (y1 - cntrY) * (int)Math.Sin(30.0);
-                y1 = cntrY + (y1 - cntrY) * (int)Math.Cos(30.0) + (x1 - cntrX) * (int)Math.Sin(30.0);
+				x1 = (int)(cntrX + (x1 - cntrX) * Math.Cos(30.0) - (y1 - cntrY) * Math.Sin(30.0));
+                y1 = (int)(cntrY + (y1 - cntrY) * Math.Cos(30.0) + (x1 - cntrX) * Math.Sin(30.0));
+
+				g.DrawLine(pen, point1, point2);
 
 
-
-            }
+			}
             else
             {
 
 
-                x = cntrX + (x - cntrX) * (int)Math.Cos(30.0) - (y - cntrY) * (int)Math.Sin(30.0);
-                y = cntrY + (y - cntrY) * (int)Math.Cos(30.0) + (x - cntrX) * (int)Math.Sin(30.0);
+                x = (int)(cntrX + (x - cntrX) * Math.Cos(30.0) - (y - cntrY) * Math.Sin(30.0));
+                y = (int)(cntrY + (y - cntrY) * Math.Cos(30.0) + (x - cntrX) * Math.Sin(30.0));
+
+				g.DrawLine(pen, point1, point2);
 
 
+			}
 
-            }
-            g.DrawLine(pen, point1, point2);
 
             pictureBox1.Image = myBitmap;
         }
