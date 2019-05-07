@@ -64,12 +64,11 @@ namespace Laba4
         static MyFrac GetRGR113LeftSum(int n)
         {
             MyFrac res = new MyFrac(1, 1);
-            for (int i = 1; i <= n ; i+=2)
+            for (int i = 1; i <= n ; i++)
             {
-          //      res = new MyFrac(n, Multiply(new MyFrac())
+                res = Plus(res, Divide(new MyFrac(1, 1), new MyFrac((2 * i - 1) * (2 * i + 1), 1)));
             }
-            res = Minus(res, new MyFrac(1, 1));
-            return res;
+            return Minus(res, new MyFrac(1, 1));
         }
 
         static MyFrac GetRGR115LeftSum(int n)
