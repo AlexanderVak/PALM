@@ -12,17 +12,22 @@ namespace Laba4
         public long nom, denom;
         public MyFrac(long nom_, long denom_)
         {
-            nom_ = Math.Abs(nom_);
-            denom_ = Math.Abs(denom_);
+
+            long abs_nom_ = Math.Abs(nom_);
+            long abs_denom_ = Math.Abs(denom_);
             nom = nom_;
             denom = denom_;
-            while (nom_ > 0 && denom_ > 0)
+            while (abs_nom_ > 0 && abs_denom_ > 0)
             {
-                if (nom_ > denom_)
-                    nom_ %= denom_;
-                else denom_ %= nom_;
+                if (abs_nom_ > abs_denom_)
+                    abs_nom_ %= abs_denom_;
+                else abs_denom_ %= abs_nom_;
             }
-            long res = nom_ + denom_;
+            long res = abs_nom_ + abs_denom_;
+            if (nom_ < 0 && denom_ < 0)
+            {
+                res *= -1;
+            }
             nom /= res;
             denom /= res;
 
@@ -83,12 +88,17 @@ namespace Laba4
 
         static void Main(string[] args)
         {
+            Console.WriteLine("Enter the numerator");
             long nom_ = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("\nEnter the denomerator");
             long denom_ = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("\nEnter a number");
             MyFrac myFrac = new MyFrac(nom_, denom_);
             MyFrac myFrac1 = new MyFrac(15, 40);
             int n = Convert.ToInt32(Console.ReadLine());
 
+            Console.WriteLine("\nFirst fraction = " + myFrac);
+            Console.WriteLine("\nSecond fraction = " + myFrac1);
             Console.WriteLine("\nAddition of fractions\nResult : " + Plus(myFrac, myFrac1));
             Console.WriteLine("\nSubtraction of fractions\nResult : " + Minus(myFrac, myFrac1));
             Console.WriteLine("\nDouble value of fraction 1 is: {0}\nDouble value of fraction 1 is: {1}", DoubleValue(myFrac), DoubleValue(myFrac1));
