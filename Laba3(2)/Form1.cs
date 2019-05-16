@@ -19,11 +19,6 @@ namespace Laba3_2_
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
             Bitmap myBitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             Graphics g = Graphics.FromImage(myBitmap);
             Font textFont = new Font("Stencil", 15);
@@ -51,6 +46,8 @@ namespace Laba3_2_
 
             pictureBox1.Image = myBitmap;
         }
+
+
 
 
 
