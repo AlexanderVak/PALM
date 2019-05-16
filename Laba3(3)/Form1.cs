@@ -21,9 +21,53 @@ namespace Laba3_3_
         Random rndForColors;
         Bitmap myBitmap;
         Graphics g;
-        int x, y, x1, y1, cntrX, cntrY;
-        Point point1, point2, pointCntr;
+        int x, y, x1, y1, cntrX, cntrY, angle, rad;
         int[] cntrArray;
+
+
+
+        private void ColorTimer_Tick(object sender, EventArgs e)
+        {
+            pen = new Pen(Color.FromArgb(rndForColors.Next(0, 256), rndForColors.Next(0, 256), rndForColors.Next(0, 256)), 5.0F);
+        }
+
+        private void Timer1_Tick_1(object sender, EventArgs e)
+        {
+            
+            
+            myBitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            g = Graphics.FromImage(myBitmap);
+
+            if (cntrX == x)
+            {
+                angle += 5;
+
+                x1 = (int)(cntrX + rad * Math.Cos(angle * Math.PI / 180));
+                y1 = (int)(cntrY + rad * Math.Sin(angle * Math.PI / 180));
+                Invalidate();
+                g.DrawLine(pen, x, y, x1, y1);
+
+
+
+            }
+            else
+            {
+                angle += 5;
+
+                x = (int)(cntrX + rad * Math.Cos(angle * Math.PI / 180));
+                y = (int)(cntrY + rad * Math.Sin(angle * Math.PI / 180));
+                Invalidate();
+                g.DrawLine(pen, x, y, x1, y1);
+
+
+
+            }
+
+
+            pictureBox1.Image = myBitmap;
+        }
+
+
 
 
         private void Form1_Load(object sender, EventArgs e)
@@ -38,60 +82,16 @@ namespace Laba3_3_
             if (cntrX == x)
                 cntrY = y;
             else cntrY = y1;
-            myBitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-            g = Graphics.FromImage(myBitmap);
+            rad = (int)Math.Sqrt((int)Math.Pow((x1 - x), 2) + (int)Math.Pow((y1 - y), 2));
             rndForColors = new Random();
             pen = new Pen(Color.FromArgb(rndForColors.Next(0, 256), rndForColors.Next(0, 256), rndForColors.Next(0, 256)), 5.0F);
+            colorTimer.Interval = rnd.Next(50, 5000);
 
 
         }
-        private void button1_Click(object sender, EventArgs e)
-        {
 
+        
 
-
-
-
-            point1 = new Point(x, y);
-            point2 = new Point(x1, y1);
-
-            g.DrawLine(pen, point1, point2);
-            pictureBox1.Image = myBitmap;
-			timer1.Start();
-
-        }
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-
-
-
-
-            if (cntrX == x)
-            {
-
-
-				x1 = (int)(cntrX + (x1 - cntrX) * Math.Cos(30.0) - (y1 - cntrY) * Math.Sin(30.0));
-                y1 = (int)(cntrY + (y1 - cntrY) * Math.Cos(30.0) + (x1 - cntrX) * Math.Sin(30.0));
-
-				g.DrawLine(pen, point1, point2);
-
-
-			}
-            else
-            {
-
-
-                x = (int)(cntrX + (x - cntrX) * Math.Cos(30.0) - (y - cntrY) * Math.Sin(30.0));
-                y = (int)(cntrY + (y - cntrY) * Math.Cos(30.0) + (x - cntrX) * Math.Sin(30.0));
-
-				g.DrawLine(pen, point1, point2);
-
-
-			}
-
-
-            pictureBox1.Image = myBitmap;
-        }
 
 
     }
