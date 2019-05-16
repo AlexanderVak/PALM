@@ -47,9 +47,6 @@ namespace Laba3_4_
 
             pictureBox1.Image = myBtmp;
         }
-
-
-
         void DrawSecondWheel(Graphics gr1)
         {
 
@@ -59,19 +56,15 @@ namespace Laba3_4_
             for (int i = 0; i < 360; i += 45)
             {
 
-                gr1.DrawLine(penForSpoke, -200, 0, -175, 0);
-
-                gr1.TranslateTransform(-200, 0);
+                gr1.DrawLine(penForSpoke, 0, 0, rad, 0);
                 gr1.RotateTransform(45);
-                gr1.TranslateTransform(200, 0);
+
             }
             //шина
-
-            
             //змінюємо х координату
-            gr1.DrawEllipse(penForWheel, -rad + 5 - 200, -rad + 5, rad * 2 - 10, rad * 2 - 10);
-            gr1.DrawEllipse(penBlack, -rad - 200, -rad, rad * 2, rad * 2);
-            gr1.DrawEllipse(penBlack, -rad + 10 - 200, -rad + 10, rad * 2 - 20, rad * 2 - 20);
+            gr1.DrawEllipse(penForWheel, -rad + 5, -rad + 5, rad * 2 - 10, rad * 2 - 10);
+            gr1.DrawEllipse(penBlack, -rad, -rad, rad * 2, rad * 2);
+            gr1.DrawEllipse(penBlack, -rad + 10, -rad + 10, rad * 2 - 20, rad * 2 - 20);
 
             pictureBox2.Image = myBtmp1;
         }
@@ -138,6 +131,19 @@ namespace Laba3_4_
 
             pictureBox1.Image = myBtmp;
         }
+        
+        private void DrawScenery(Graphics gr)
+        {
+            SolidBrush greenBrush = new SolidBrush(Color.Green);
+            SolidBrush blueBrush = new SolidBrush(Color.DeepSkyBlue);
+            Rectangle sky = new Rectangle(0, 0, pictureBox1.Width, pictureBox1.Height / 2);
+            Rectangle grass = new Rectangle(0, pictureBox1.Height / 2, pictureBox1.Width, pictureBox1.Height / 2);
+            gr.FillRectangle(blueBrush, sky);
+            gr.DrawRectangle(penBlack, sky);
+            gr.FillRectangle(greenBrush, grass);
+            gr.DrawRectangle(penBlack, grass);
+
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -146,6 +152,9 @@ namespace Laba3_4_
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            myBtmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            gr = Graphics.FromImage(myBtmp);
+            DrawScenery(gr);
             //поворот спиць
             angle += 5f;
             // рух колеса
@@ -155,12 +164,12 @@ namespace Laba3_4_
             x2 += 3;
             Invalidate();
 
-            myBtmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-            gr = Graphics.FromImage(myBtmp);
+
 
             // переносимо центр мас
             y = 300;
             gr.TranslateTransform(x1, y);
+
             DrawBody(gr);
             DrawTrailer(gr);
             gr.RotateTransform(angle);
@@ -168,9 +177,9 @@ namespace Laba3_4_
             myBtmp1 = new Bitmap(pictureBox2.Width, pictureBox2.Height);
             gr1 = Graphics.FromImage(myBtmp1);
 
-            gr1.TranslateTransform(x2, y);
-
-			DrawSecondWheel(gr1);
+            gr1.TranslateTransform(x2 - 200, y);
+            gr1.RotateTransform(angle);
+            DrawSecondWheel(gr1);
 
 
 
